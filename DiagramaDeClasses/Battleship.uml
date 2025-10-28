@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/rafas/IdeaProjects/Battleship</OriginalElement>
+  <nodes>
+    <node x="262.5" y="186.0">iscteiul.ista.AppTest</node>
+    <node x="264.0" y="366.0">iscteiul.ista.battleship.Position</node>
+    <node x="-42.0" y="366.0">iscteiul.ista.battleship.Ship</node>
+    <node x="26.0" y="486.0">iscteiul.ista.battleship.Galleon</node>
+    <node x="-44.0" y="186.0">iscteiul.ista.battleship.IShip</node>
+    <node x="179.0" y="306.0">iscteiul.ista.battleship.Compass</node>
+    <node x="108.0" y="546.0">iscteiul.ista.battleship.Frigate</node>
+    <node x="112.5" y="366.0">iscteiul.ista.battleship.Game</node>
+    <node x="35.5" y="306.0">iscteiul.ista.battleship.Fleet</node>
+    <node x="33.5" y="126.0">iscteiul.ista.battleship.IFleet</node>
+    <node x="12.0" y="-14.0">iscteiul.ista.battleship.Tasks</node>
+    <node x="182.0" y="126.0">iscteiul.ista.battleship.IPosition</node>
+    <node x="192.5" y="486.0">iscteiul.ista.battleship.Barge</node>
+    <node x="110.5" y="186.0">iscteiul.ista.battleship.IGame</node>
+    <node x="265.0" y="546.0">iscteiul.ista.battleship.Carrack</node>
+    <node x="-54.5" y="546.0">iscteiul.ista.battleship.Caravel</node>
+    <node x="-60.5" y="46.0">iscteiul.ista.App</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="iscteiul.ista.battleship.Ship" target="iscteiul.ista.battleship.IShip" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Position" target="iscteiul.ista.battleship.IPosition" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="320.0" y="280.0" />
+      <point x="240.0" y="280.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Fleet" target="iscteiul.ista.battleship.IFleet" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Carrack" target="iscteiul.ista.battleship.Ship" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="320.0" y="460.0" />
+      <point x="0.0" y="460.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Barge" target="iscteiul.ista.battleship.Ship" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="240.0" y="460.0" />
+      <point x="0.0" y="460.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Caravel" target="iscteiul.ista.battleship.Ship" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Game" target="iscteiul.ista.battleship.IGame" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Frigate" target="iscteiul.ista.battleship.Ship" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="160.0" y="460.0" />
+      <point x="0.0" y="460.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="iscteiul.ista.battleship.Galleon" target="iscteiul.ista.battleship.Ship" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="80.0" y="460.0" />
+      <point x="0.0" y="460.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.7236842105263158" showDependencies="false" x="158.5" y="280.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
