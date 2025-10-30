@@ -1,3 +1,7 @@
 # Battleship
 
-Basic academic version of Battleship game to build upon.
+Repositório do grupo:
+122674
+122675
+122677
+122711
