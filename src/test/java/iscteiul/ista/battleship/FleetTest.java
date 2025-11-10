@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
+import static iscteiul.ista.battleship.IFleet.BOARD_SIZE;
+import static iscteiul.ista.battleship.IFleet.FLEET_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 /*
 Ficaram alguns branch para testar -> confirmar com o stor
@@ -34,14 +36,58 @@ class FleetTest {
         assertFalse(fleet.addShip(galleonToColide));
         System.out.println(fleet.getShips());
         assertEquals(2, fleet.getShips().size());
+
+        Fleet fleetToFill = new Fleet();
+        Position[] positions = {
+                new Position(0,0),
+                new Position(0,2),
+                new Position(0,4),
+                new Position(2,0),
+                new Position(2,2),
+                new Position(2,4),
+                new Position(4,0),
+                new Position(4,2),
+                new Position(4,4),
+                new Position(6,0),
+                new Position(6,2)
+        };
+
+        for (Position pos : positions) {
+            Barge barge = new Barge(Compass.NORTH, pos);
+            boolean added = fleetToFill.addShip(barge);
+            System.out.println("Adicionada barca em " + pos.getRow() + "," + pos.getColumn() + ": " + added);
+        }
+        Barge barge = new Barge(Compass.SOUTH, new Position(6, 4));
+        System.out.println(fleetToFill.getShips().size());
+        assertFalse(fleetToFill.addShip(barge));
+
+
     }
 
+
     @Test
-    void testAddShipOutsideBoard() {
-        // Posicao fora do tabuleiro (assumindo BOARD_SIZE = 10)
-        IShip invalidShip = new Frigate(Compass.NORTH, new Position(10, 10));
-        assertFalse(fleet.addShip(invalidShip));
-        assertEquals(0, fleet.getShips().size());
+    void testIsInsideBoardBranches() {
+        Fleet fleet = new Fleet();
+
+        // 1️⃣ Fora à esquerda
+        IShip left = new Frigate(Compass.NORTH, new Position(0, -1));
+        assertFalse(fleet.addShip(left));
+
+        // 2️⃣ Fora à direita
+        IShip right = new Frigate(Compass.NORTH, new Position(0, BOARD_SIZE));
+        assertFalse(fleet.addShip(right));
+
+        // 3️⃣ Fora acima
+        IShip top = new Frigate(Compass.NORTH, new Position(-1, 0));
+        assertFalse(fleet.addShip(top));
+
+        // 4️⃣ Fora abaixo
+        IShip bottom = new Frigate(Compass.NORTH, new Position(BOARD_SIZE, 0));
+        assertFalse(fleet.addShip(bottom));
+
+        // 5️⃣ Dentro do tabuleiro (controle positivo)
+        IShip valid = new Frigate(Compass.NORTH, new Position(5, 5));
+        assertTrue(fleet.addShip(valid));
     }
 
     @Test
@@ -74,11 +120,11 @@ class FleetTest {
         fleet.addShip(barge);
 
         // Atira à fragata
-        frigate.getPositions().get(0).shoot();
+        barge.getPositions().get(0).shoot();
 
         List<IShip> floatingShips = fleet.getFloatingShips();
         // Barge ainda flutua
-        assertTrue(floatingShips.contains(barge));
+        assertTrue(floatingShips.contains(frigate));
     }
 
     @Test
@@ -101,7 +147,9 @@ class FleetTest {
         fleet.addShip(galleon);
         fleet.addShip(barge);
 
-        // Apenas testamos se não lança exceção
         assertDoesNotThrow(() -> fleet.printStatus());
+        assertThrows(AssertionError.class, () -> {
+            fleet.printShipsByCategory(null);
+        });
     }
 }
