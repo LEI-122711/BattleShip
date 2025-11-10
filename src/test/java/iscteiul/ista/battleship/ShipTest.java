@@ -52,6 +52,17 @@ class ShipTest {
     }
 
     @Test
+    void testConstructor() {
+        assertThrows(AssertionError.class, () -> {
+            new TestShip("fragata", null, startPos, 3);
+        });
+        assertThrows(AssertionError.class, () -> {
+            new TestShip("fragata", Compass.EAST, null, 3);
+        });
+
+    }
+
+    @Test
     void testGetters() {
         assertEquals("caravela", testShip.getCategory());
         assertEquals(Compass.EAST, testShip.getBearing());
@@ -61,6 +72,9 @@ class ShipTest {
 
     @Test
     void testOccupies() {
+        assertThrows(AssertionError.class, () -> {
+            testShip.occupies(null);
+        });
         IPosition occupied = new Position(2, 4);
         assertTrue(testShip.occupies(occupied));
         IPosition notOccupied = new Position(5, 5);
@@ -78,6 +92,9 @@ class ShipTest {
 
     @Test
     void testShoot() {
+        assertThrows(AssertionError.class, () -> {
+            testShip.shoot(null);
+        });
         IPosition target = new Position(2, 3);
         testShip.shoot(target);
         assertTrue(testShip.getPositions().get(0).isHit());
@@ -93,6 +110,9 @@ class ShipTest {
 
     @Test
     void testTooCloseToOtherShip() {
+        assertThrows(AssertionError.class, () -> {
+            testShip.tooCloseTo((IShip) null);
+        });
         IShip other = new TestShip("barca", Compass.SOUTH, new Position(1, 3), 2);
         assertTrue(testShip.tooCloseTo(other));
 
@@ -109,6 +129,16 @@ class ShipTest {
     }
 
     @Test
+    void testTopBottomLeftRightPositions_South() {
+        Ship southShip = new TestShip("fragata", Compass.SOUTH, new Position(5, 5), 3);
+        // Positions: (5,5), (6,5), (7,5)
+        assertEquals(5, southShip.getTopMostPos());
+        assertEquals(7, southShip.getBottomMostPos());
+        assertEquals(5, southShip.getLeftMostPos());
+        assertEquals(5, southShip.getRightMostPos());
+    }
+
+    @Test
     void testTopBottomLeftRightPositions_North() {
         Ship northShip = new TestShip("fragata", Compass.NORTH, new Position(5, 5), 3);
         // Positions: (5,5), (4,5), (3,5)
@@ -116,6 +146,15 @@ class ShipTest {
         assertEquals(5, northShip.getBottomMostPos());
         assertEquals(5, northShip.getLeftMostPos());
         assertEquals(5, northShip.getRightMostPos());
+    }
+    @Test
+    void testTopBottomLeftRightPositions_West() {
+        Ship westShip = new TestShip("fragata", Compass.WEST, new Position(5, 5), 3);
+        // Positions: (5,5), (5,4), (5,3)
+        assertEquals(5, westShip.getTopMostPos());
+        assertEquals(5, westShip.getBottomMostPos());
+        assertEquals(3, westShip.getLeftMostPos());
+        assertEquals(5, westShip.getRightMostPos());
     }
 
     @Test
