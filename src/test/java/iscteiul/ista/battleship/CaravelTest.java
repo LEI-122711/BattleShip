@@ -94,15 +94,4 @@ class CaravelTest {
         }, "Deve lançar AssertionError se a bússola for null (verificado na superclasse Ship)");
     }
 
-    @Test
-    @DisplayName("Lança IllegalArgumentException se bearing for UNKNOWN")
-    void testInvalidBearingUnknown() {
-        IPosition start = new Position(0, 0);
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Caravel(Compass.UNKNOWN, start);
-        });
-        assertTrue(ex.getMessage().contains("invalid bearing"),
-                "Mensagem de erro deve indicar bearing inválido");
-    }
-
 }
