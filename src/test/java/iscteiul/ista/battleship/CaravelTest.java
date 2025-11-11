@@ -105,18 +105,18 @@ class CaravelTest {
                 "Mensagem de erro deve indicar bearing inválido");
     }
 
-//    @Test
-//    @DisplayName("Lança AssertionError se bearing for null (erro vem do construtor da Ship)")
-//    void testBearingNullThrowsAssertionError() {
-//        IPosition start = new Position(0, 0);
-//
-//        AssertionError ex = assertThrows(AssertionError.class, () -> {
-//            new Caravel(null, start);
-//        });
-//
-//        assertTrue(ex.getMessage() == null || ex.getMessage().isEmpty(),
-//                "O erro é lançado pela Ship antes de a Caravel validar o bearing");
-//    }
+    @Test
+    @DisplayName("Lança AssertionError se bearing for null (erro vem do construtor da Ship)")
+    void testBearingNullThrowsAssertionError() {
+        IPosition start = new Position(0, 0);
+
+        AssertionError ex = assertThrows(AssertionError.class, () -> {
+            new Caravel(null, start);
+        });
+
+        assertTrue(ex.getMessage() == null || ex.getMessage().isEmpty(),
+                "O erro é lançado pela Ship antes de a Caravel validar o bearing");
+    }
 
 
 }
