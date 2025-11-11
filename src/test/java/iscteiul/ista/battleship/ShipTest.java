@@ -2,6 +2,7 @@ package iscteiul.ista.battleship;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 Ficaram por verificar 2 ramos :')
  */
 
-
+@DisplayName("Testes para a classe Ship")
 class ShipTest {
 
     private Ship testShip;
@@ -52,6 +53,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar o construtor")
     void testConstructor() {
         assertThrows(AssertionError.class, () -> {
             new TestShip("fragata", null, startPos, 3);
@@ -63,6 +65,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar os getters")
     void testGetters() {
         assertEquals("caravela", testShip.getCategory());
         assertEquals(Compass.EAST, testShip.getBearing());
@@ -71,6 +74,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar o método Occupies")
     void testOccupies() {
         assertThrows(AssertionError.class, () -> {
             testShip.occupies(null);
@@ -81,6 +85,8 @@ class ShipTest {
         assertFalse(testShip.occupies(notOccupied));
     }
 
+
+    @DisplayName("Testar se ainda flutua")
     @Test
     void testStillFloating() {
         assertTrue(testShip.stillFloating());
@@ -90,6 +96,7 @@ class ShipTest {
         assertFalse(testShip.stillFloating());
     }
 
+    @DisplayName("Testar o testShoot")
     @Test
     void testShoot() {
         assertThrows(AssertionError.class, () -> {
@@ -101,6 +108,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar o método que verifica se as posições são demasiado próximas ou não")
     void testTooCloseToPosition() {
         IPosition adjacent = new Position(3, 3);
         assertTrue(testShip.tooCloseTo(adjacent));
@@ -109,6 +117,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar o método que verifica se os navios estão demasiado próximos ou não")
     void testTooCloseToOtherShip() {
         assertThrows(AssertionError.class, () -> {
             testShip.tooCloseTo((IShip) null);
@@ -121,6 +130,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar as posições quando o novio está orientado a East")
     void testTopBottomLeftRightPositions_East() {
         assertEquals(2, testShip.getTopMostPos());
         assertEquals(2, testShip.getBottomMostPos());
@@ -129,6 +139,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar as posições quando o novio está orientado a South")
     void testTopBottomLeftRightPositions_South() {
         Ship southShip = new TestShip("fragata", Compass.SOUTH, new Position(5, 5), 3);
         // Positions: (5,5), (6,5), (7,5)
@@ -139,6 +150,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar as posições quando o novio está orientado a North")
     void testTopBottomLeftRightPositions_North() {
         Ship northShip = new TestShip("fragata", Compass.NORTH, new Position(5, 5), 3);
         // Positions: (5,5), (4,5), (3,5)
@@ -148,6 +160,7 @@ class ShipTest {
         assertEquals(5, northShip.getRightMostPos());
     }
     @Test
+    @DisplayName("Testar as posições quando o novio está orientado a West")
     void testTopBottomLeftRightPositions_West() {
         Ship westShip = new TestShip("fragata", Compass.WEST, new Position(5, 5), 3);
         // Positions: (5,5), (5,4), (5,3)
@@ -158,6 +171,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar os construtores de vários tipos")
     void testBuildShipAllKinds() {
         assertTrue(Ship.buildShip("barca", Compass.NORTH, new Position(1, 1)) instanceof Barge);
         assertTrue(Ship.buildShip("caravela", Compass.EAST, new Position(1, 1)) instanceof Caravel);
@@ -168,6 +182,7 @@ class ShipTest {
     }
 
     @Test
+    @DisplayName("Testar os prints")
     void testToStringContainsInfo() {
         String str = testShip.toString();
         assertTrue(str.contains(testShip.getCategory()));

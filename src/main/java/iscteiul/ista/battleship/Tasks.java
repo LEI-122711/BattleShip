@@ -38,116 +38,118 @@ public class Tasks {
      * This task tests the building up of ships: For each ship, reads positions and
      * indicates whether the ship occupies each one of such positions or not
      */
-    public static void taskA() {
-        Scanner in = new Scanner(System.in);
-        while (in.hasNext()) {
-            Ship s = readShip(in);
-            if (s != null)
-                for (int i = 0; i < NUMBER_SHOTS; i++) {
-                    Position p = readPosition(in);
-                    LOGGER.info("{} {}", p, s.occupies(p));
-                }
-        }
-    }
+    //Pusemos em comentário porque não é conveniente testar estes métodos.
 
-    /**
-     * This task tests the building up of fleets
-     */
-    public static void taskB() {
-        Scanner in = new Scanner(System.in);
-        IFleet fleet = null;
-        String command = in.next();
-        while (!command.equals(DESISTIR)) {
-            switch (command) {
-                case NOVAFROTA:
-                    fleet = buildFleet(in);
-                    break;
-                case STATUS:
-                    if (fleet != null)
-                        fleet.printStatus();
-                    break;
-                default:
-                    LOGGER.info("Que comando é esse??? Repete lá ...");
-            }
-            // The other commands are unknown in this task
-            command = in.next();
-        }
-        LOGGER.info(GOODBYE_MESSAGE);
-    }
-
-    /**
-     * This task tests the building up of fleets and takes into consideration the
-     * possibility of cheating
-     */
-    public static void taskC() {
-        Scanner in = new Scanner(System.in);
-        IFleet fleet = null;
-        String command = in.next();
-        while (!command.equals(DESISTIR)) {
-            switch (command) {
-                case NOVAFROTA:
-                    fleet = buildFleet(in);
-                    break;
-                case STATUS:
-                    if (fleet != null)
-                        fleet.printStatus();
-                    break;
-                case BATOTA:
-                    LOGGER.info(fleet);
-                    break;
-                default:
-                    LOGGER.info("Que comando é esse??? Repete lá ...");
-            }
-            // The other commands are unknown in this task
-            command = in.next();
-        }
-        LOGGER.info(GOODBYE_MESSAGE);
-    }
-
-    /**
-     * This task also tests the fighting element of a round of three shots
-     */
-    public static void taskD() {
-
-        Scanner in = new Scanner(System.in);
-        IFleet fleet = null;
-        IGame game = null;
-        String command = in.next();
-        while (!command.equals(DESISTIR)) {
-            switch (command) {
-                case NOVAFROTA:
-                    fleet = buildFleet(in);
-                    game = new Game(fleet);
-                    break;
-                case STATUS:
-                    if (fleet != null)
-                        fleet.printStatus();
-                    break;
-                case BATOTA:
-                    if (fleet != null)
-                        game.printFleet();
-                    break;
-                case RAJADA:
-                    if (game != null) {
-                        firingRound(in, game);
-
-                        LOGGER.info("Hits: {} Inv: {} Rep: {} Restam {} navios.", game.getHits(), game.getInvalidShots(),
-                                game.getRepeatedShots(), game.getRemainingShips());
-                        if (game.getRemainingShips() == 0)
-                            LOGGER.info("Maldito sejas, Java Sparrow, eu voltarei, glub glub glub...");
-                    }
-                    break;
-                case VERTIROS:
-                    if (game != null)
-                        game.printValidShots();
-                    break;
-                default:
-                    LOGGER.info("Que comando é esse??? Repete ...");
-            }
-            command = in.next();
-        }
-        LOGGER.info(GOODBYE_MESSAGE);
-    }
+//    public static void taskA() {
+//        Scanner in = new Scanner(System.in);
+//        while (in.hasNext()) {
+//            Ship s = readShip(in);
+//            if (s != null)
+//                for (int i = 0; i < NUMBER_SHOTS; i++) {
+//                    Position p = readPosition(in);
+//                    LOGGER.info("{} {}", p, s.occupies(p));
+//                }
+//        }
+//    }
+//
+//    /**
+//     * This task tests the building up of fleets
+//     */
+//    public static void taskB() {
+//        Scanner in = new Scanner(System.in);
+//        IFleet fleet = null;
+//        String command = in.next();
+//        while (!command.equals(DESISTIR)) {
+//            switch (command) {
+//                case NOVAFROTA:
+//                    fleet = buildFleet(in);
+//                    break;
+//                case STATUS:
+//                    if (fleet != null)
+//                        fleet.printStatus();
+//                    break;
+//                default:
+//                    LOGGER.info("Que comando é esse??? Repete lá ...");
+//            }
+//            // The other commands are unknown in this task
+//            command = in.next();
+//        }
+//        LOGGER.info(GOODBYE_MESSAGE);
+//    }
+//
+//    /**
+//     * This task tests the building up of fleets and takes into consideration the
+//     * possibility of cheating
+//     */
+//    public static void taskC() {
+//        Scanner in = new Scanner(System.in);
+//        IFleet fleet = null;
+//        String command = in.next();
+//        while (!command.equals(DESISTIR)) {
+//            switch (command) {
+//                case NOVAFROTA:
+//                    fleet = buildFleet(in);
+//                    break;
+//                case STATUS:
+//                    if (fleet != null)
+//                        fleet.printStatus();
+//                    break;
+//                case BATOTA:
+//                    LOGGER.info(fleet);
+//                    break;
+//                default:
+//                    LOGGER.info("Que comando é esse??? Repete lá ...");
+//            }
+//            // The other commands are unknown in this task
+//            command = in.next();
+//        }
+//        LOGGER.info(GOODBYE_MESSAGE);
+//    }
+//
+//    /**
+//     * This task also tests the fighting element of a round of three shots
+//     */
+//    public static void taskD() {
+//
+//        Scanner in = new Scanner(System.in);
+//        IFleet fleet = null;
+//        IGame game = null;
+//        String command = in.next();
+//        while (!command.equals(DESISTIR)) {
+//            switch (command) {
+//                case NOVAFROTA:
+//                    fleet = buildFleet(in);
+//                    game = new Game(fleet);
+//                    break;
+//                case STATUS:
+//                    if (fleet != null)
+//                        fleet.printStatus();
+//                    break;
+//                case BATOTA:
+//                    if (fleet != null)
+//                        game.printFleet();
+//                    break;
+//                case RAJADA:
+//                    if (game != null) {
+//                        firingRound(in, game);
+//
+//                        LOGGER.info("Hits: {} Inv: {} Rep: {} Restam {} navios.", game.getHits(), game.getInvalidShots(),
+//                                game.getRepeatedShots(), game.getRemainingShips());
+//                        if (game.getRemainingShips() == 0)
+//                            LOGGER.info("Maldito sejas, Java Sparrow, eu voltarei, glub glub glub...");
+//                    }
+//                    break;
+//                case VERTIROS:
+//                    if (game != null)
+//                        game.printValidShots();
+//                    break;
+//                default:
+//                    LOGGER.info("Que comando é esse??? Repete ...");
+//            }
+//            command = in.next();
+//        }
+//        LOGGER.info(GOODBYE_MESSAGE);
+//    }
 
     /**
      * This operation allows the build up of a fleet, given user data
@@ -159,19 +161,21 @@ public class Tasks {
         assert in != null;
 
         Fleet fleet = new Fleet();
-        int i = 0; // i represents the total of successfully created ships
 
-        while (i <= Fleet.FLEET_SIZE) {
+        int i = 0; // i represents the total of successfully created ships
+        //Posso alterar aqui??
+        while (i < Fleet.FLEET_SIZE) {
             IShip s = readShip(in);
             if (s != null) {
                 boolean success = fleet.addShip(s);
                 if (success)
                     i++;
-                else
-                    LOGGER.info("Falha na criacao de {} {} {}", s.getCategory(), s.getBearing(), s.getPosition());
-            } else {
-                LOGGER.info("Navio desconhecido!");
+                // else
+                    //LOGGER.info("Falha na criacao de {} {} {}", s.getCategory(), s.getBearing(), s.getPosition());
             }
+//                else {
+//                LOGGER.info("Navio desconhecido!");
+//            }
         }
         LOGGER.info("{} navios adicionados com sucesso!", i);
         return fleet;
@@ -214,8 +218,8 @@ public class Tasks {
         for (int i = 0; i < NUMBER_SHOTS; i++) {
             IPosition pos = readPosition(in);
             IShip sh = game.fire(pos);
-            if (sh != null)
-                LOGGER.info("Mas... mas... {}s nao sao a prova de bala? :-(", sh.getCategory());
+            //if (sh != null)
+                //LOGGER.info("Mas... mas... {}s nao sao a prova de bala? :-(", sh.getCategory());
         }
 
     }

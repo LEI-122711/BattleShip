@@ -2,7 +2,9 @@ package iscteiul.ista.battleship;
 
 import org.junit.jupiter.api.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static iscteiul.ista.battleship.IFleet.BOARD_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +37,6 @@ public class BattleshipTest {
             assertTrue(fleet.addShip(frigate));
             assertTrue(fleet.addShip(galleon));
             assertFalse(fleet.addShip(galleonToColide));
-            System.out.println(fleet.getShips());
             assertEquals(2, fleet.getShips().size());
 
             Fleet fleetToFill = new Fleet();
@@ -59,7 +60,6 @@ public class BattleshipTest {
                 System.out.println("Adicionada barca em " + pos.getRow() + "," + pos.getColumn() + ": " + added);
             }
             Barge barge = new Barge(Compass.SOUTH, new Position(6, 4));
-            System.out.println(fleetToFill.getShips().size());
             assertFalse(fleetToFill.addShip(barge));
 
 
@@ -520,6 +520,745 @@ public class BattleshipTest {
         }
     }
 
+    @Nested
+    class BargeTest {
+
+        private Barge barge;
+        private IPosition startPos;
+
+        @BeforeEach
+        void setUp() {
+            // Inicializa uma posição e uma barca antes de cada teste
+            startPos = new Position(3, 3);
+            barge = new Barge(Compass.NORTH, startPos);
+        }
+
+        @Test
+        @DisplayName("Verificar metadados da Barca (Tamanho)")
+        void testBargeMetadata() {
+            assertEquals(1, barge.getSize(), "O tamanho da Barca deve ser sempre 1");
+        }
+
+        @Test
+        @DisplayName("Verificar inicialização de posição única")
+        void testBargePosition() {
+            // Verifica se a orientação foi guardada corretamente
+            assertEquals(Compass.NORTH, barge.getBearing(), "A orientação inicial deve ser preservada");
+
+            // Verifica as posições ocupadas
+            List<IPosition> positions = barge.getPositions();
+            assertNotNull(positions, "A lista de posições não deve ser nula");
+            assertEquals(1, positions.size(), "A Barca deve ocupar exatamente 1 posição");
+
+            // Verifica se a posição ocupada é exatamente a que foi passada no construtor
+            IPosition occupiedPos = positions.get(0);
+            assertEquals(startPos.getRow(), occupiedPos.getRow(), "A linha da posição ocupada deve ser igual à inicial");
+            assertEquals(startPos.getColumn(), occupiedPos.getColumn(), "A coluna da posição ocupada deve ser igual à inicial");
+        }
+
+        @Test
+        @DisplayName("Verificar independência da orientação para tamanho 1")
+        void testOrientationIndependence() {
+            // Como a Barca tem tamanho 1, a posição ocupada deve ser a mesma independentemente da orientação
+            IPosition pos = new Position(5, 5);
+
+            Barge northBarge = new Barge(Compass.NORTH, pos);
+            Barge eastBarge = new Barge(Compass.EAST, pos);
+            Barge southBarge = new Barge(Compass.SOUTH, pos);
+            Barge westBarge = new Barge(Compass.WEST, pos);
+
+            assertAll("Verificar todas as orientações",
+                    () -> assertEquals(northBarge.getPositions().get(0).getRow(), eastBarge.getPositions().get(0).getRow()),
+                    () -> assertEquals(northBarge.getPositions().get(0).getColumn(), eastBarge.getPositions().get(0).getColumn()),
+                    () -> assertEquals(northBarge.getPositions().get(0).getRow(), southBarge.getPositions().get(0).getRow()),
+                    () -> assertEquals(northBarge.getPositions().get(0).getRow(), westBarge.getPositions().get(0).getRow())
+            );
+        }
+    }
+
+    @Nested
+    class CaravelTest {
+
+        @Test
+        @DisplayName("Valida nome e tamanho da Caravela")
+        void testMetadata() {
+            Caravel c = new Caravel(Compass.NORTH, new Position(0, 0));
+            assertEquals(2, c.getSize(), "Tamanho deve ser 2");
+        }
+
+        @Test
+        @DisplayName("Valida que getSize() retorna sempre o valor correto")
+        void testGetSizeMethod() {
+            Caravel c1 = new Caravel(Compass.NORTH, new Position(0, 0));
+            Caravel c2 = new Caravel(Compass.EAST, new Position(3, 3));
+
+            assertEquals(2, c1.getSize(), "getSize() deve retornar 2 para qualquer Caravel");
+            assertEquals(2, c2.getSize(), "getSize() deve retornar 2 para qualquer Caravel");
+        }
+
+        @Test
+        @DisplayName("Valida posições para NORTH (cresce para baixo)")
+        void testPositionsNorth() {
+            IPosition start = new Position(5, 5);
+            Caravel c = new Caravel(Compass.NORTH, start);
+            List<IPosition> positions = c.getPositions();
+
+            assertEquals(2, positions.size());
+            // Posição inicial (5,5)
+            assertEquals(5, positions.get(0).getRow());
+            assertEquals(5, positions.get(0).getColumn());
+            // Segunda posição (6,5) -> linha + 1
+            assertEquals(6, positions.get(1).getRow());
+            assertEquals(5, positions.get(1).getColumn());
+        }
+
+        @Test
+        @DisplayName("Valida posições para SOUTH (igual a NORTH nesta implementação)")
+        void testPositionsSouth() {
+            IPosition start = new Position(5, 5);
+            Caravel c = new Caravel(Compass.SOUTH, start);
+            List<IPosition> positions = c.getPositions();
+
+            assertEquals(2, positions.size());
+            assertEquals(5, positions.get(0).getRow());
+            assertEquals(6, positions.get(1).getRow());
+            assertEquals(5, positions.get(0).getColumn());
+            assertEquals(5, positions.get(1).getColumn());
+        }
+
+        @Test
+        @DisplayName("Valida posições para EAST (cresce para a direita)")
+        void testPositionsEast() {
+            IPosition start = new Position(5, 5);
+            Caravel c = new Caravel(Compass.EAST, start);
+            List<IPosition> positions = c.getPositions();
+
+            assertEquals(2, positions.size());
+            // Posição inicial (5,5)
+            assertEquals(5, positions.get(0).getRow());
+            assertEquals(5, positions.get(0).getColumn());
+            // Segunda posição (5,6) -> coluna + 1
+            assertEquals(5, positions.get(1).getRow());
+            assertEquals(6, positions.get(1).getColumn());
+        }
+
+        @Test
+        @DisplayName("Valida posições para WEST (igual a EAST nesta implementação)")
+        void testPositionsWest() {
+            IPosition start = new Position(5, 5);
+            Caravel c = new Caravel(Compass.WEST, start);
+            List<IPosition> positions = c.getPositions();
+
+            assertEquals(2, positions.size());
+            assertEquals(5, positions.get(0).getRow());
+            assertEquals(5, positions.get(1).getRow());
+            assertEquals(5, positions.get(0).getColumn());
+            assertEquals(6, positions.get(1).getColumn());
+        }
+
+        @Test
+        @DisplayName("Lança AssertionError se bearing for nulo (validação feita em Ship)")
+        void testNullCompass() {
+            assertThrows(AssertionError.class, () -> {
+                new Caravel(null, new Position(1, 1));
+            }, "Deve lançar AssertionError se a bússola for null (verificado na superclasse Ship)");
+        }
+
+        @Test
+        @DisplayName("Lança IllegalArgumentException se bearing for UNKNOWN")
+        void testInvalidBearingUnknown() {
+            IPosition start = new Position(0, 0);
+            IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+                new Caravel(Compass.UNKNOWN, start);
+            });
+            assertTrue(ex.getMessage().contains("invalid bearing"),
+                    "Mensagem de erro deve indicar bearing inválido");
+        }
+
+    }
+
+    @Nested
+    class CarrackTest {
+
+        @Test
+        @DisplayName("Valida Nome e Tamanho da Nau")
+        void testMetadata() {
+            Carrack c = new Carrack(Compass.NORTH, new Position(0, 0));
+            assertEquals(3, c.getSize(), "Nau deve ter tamanho 3");
+        }
+
+        @Test
+        @DisplayName("Valida posições verticais (NORTH/SOUTH)")
+        void testPositionsVertical() {
+            IPosition start = new Position(2, 2);
+
+            // Testa NORTH (cresce para baixo)
+            Carrack north = new Carrack(Compass.NORTH, start);
+            List<IPosition> nPos = north.getPositions();
+            assertEquals(3, nPos.size());
+            assertEquals(2, nPos.get(0).getRow()); // Posição inicial
+            assertEquals(3, nPos.get(1).getRow());
+            assertEquals(4, nPos.get(2).getRow()); // Terceira posição
+
+            // Testa SOUTH (mesmo comportamento nesta implementação)
+            Carrack south = new Carrack(Compass.SOUTH, start);
+            List<IPosition> sPos = south.getPositions();
+            assertEquals(nPos.get(2).getRow(), sPos.get(2).getRow(), "SOUTH deve ser igual a NORTH");
+        }
+
+        @Test
+        @DisplayName("Valida posições horizontais (EAST/WEST)")
+        void testPositionsHorizontal() {
+            IPosition start = new Position(2, 2);
+
+            // Testa EAST (cresce para a direita)
+            Carrack east = new Carrack(Compass.EAST, start);
+            List<IPosition> ePos = east.getPositions();
+            assertEquals(3, ePos.size());
+            assertEquals(2, ePos.get(0).getColumn()); // Posição inicial
+            assertEquals(3, ePos.get(1).getColumn());
+            assertEquals(4, ePos.get(2).getColumn()); // Terceira posição
+
+            // Testa WEST (mesmo comportamento nesta implementação)
+            Carrack west = new Carrack(Compass.WEST, start);
+            List<IPosition> wPos = west.getPositions();
+            assertEquals(ePos.get(2).getColumn(), wPos.get(2).getColumn(), "WEST deve ser igual a EAST");
+        }
+
+        @Test
+        @DisplayName("Valida exceção de bússola nula (via superclasse)")
+        void testNullCompass() {
+            // Assume-se que a superclasse Ship lança AssertionError para null, conforme visto antes.
+            // Se tiveres alterado a Ship para lançar NullPointerException, ajusta aqui.
+            assertThrows(AssertionError.class, () -> {
+                new Carrack(null, new Position(1, 1));
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("Testes da classe Frigate")
+    class FrigateTest {
+
+        @Test
+        @DisplayName("Tamanho (Size) deve ser 4")
+        void getSize() {
+            // Preenche o teste que já existia
+            IPosition pos = new Position(0, 0); // Posição inicial irrelevante
+            Frigate frigate = new Frigate(Compass.NORTH, pos);
+            assertEquals(4, frigate.getSize(), "O tamanho da Fragata deve ser sempre 4");
+        }
+
+        @Test
+        @DisplayName("Construtor deve falhar com 'bearing' nulo")
+        void constructor_ShouldThrowAssertionError_WhenBearingIsNull() {
+            // Testar a validação de 'null' que vem da superclasse 'Ship'
+            IPosition pos = new Position(0, 0);
+            assertThrows(AssertionError.class, () -> {
+                new Frigate(null, pos);
+            }, "A superclasse 'Ship' deve lançar AssertionError se 'bearing' for nulo");
+        }
+
+        @Test
+        @DisplayName("Construtor deve falhar com 'position' nula")
+        void constructor_ShouldThrowAssertionError_WhenPositionIsNull() {
+            // Testar a validação de 'null' que vem da superclasse 'Ship'
+            assertThrows(AssertionError.class, () -> {
+                new Frigate(Compass.NORTH, null);
+            }, "A superclasse 'Ship' deve lançar AssertionError se 'pos' for nula");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Norte (Vertical)")
+        void checkPositions_BearingNorth_IsVertical() {
+            IPosition startPos = new Position(5, 5);
+            Frigate frigate = new Frigate(Compass.NORTH, startPos);
+
+            List<IPosition> expected = new ArrayList<>();
+            expected.add(new Position(5, 5)); // row
+            expected.add(new Position(6, 5)); // row + 1
+            expected.add(new Position(7, 5)); // row + 2
+            expected.add(new Position(8, 5)); // row + 3
+
+            assertEquals(4, frigate.getPositions().size(), "Deve ter 4 posições");
+            assertTrue(frigate.getPositions().containsAll(expected),
+                    "Posições 'NORTH' (vertical) não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Sul (Vertical)")
+        void checkPositions_BearingSouth_IsVertical() {
+            // A lógica da classe 'Frigate' trata NORTH e SOUTH da mesma forma
+            IPosition startPos = new Position(5, 5);
+            Frigate frigate = new Frigate(Compass.SOUTH, startPos);
+
+            List<IPosition> expected = new ArrayList<>();
+            expected.add(new Position(5, 5)); // row
+            expected.add(new Position(6, 5)); // row + 1
+            expected.add(new Position(7, 5)); // row + 2
+            expected.add(new Position(8, 5)); // row + 3
+
+            assertEquals(4, frigate.getPositions().size(), "Deve ter 4 posições");
+            assertTrue(frigate.getPositions().containsAll(expected),
+                    "Posições 'SOUTH' (vertical) não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Este (Horizontal)")
+        void checkPositions_BearingEast_IsHorizontal() {
+            IPosition startPos = new Position(5, 5);
+            Frigate frigate = new Frigate(Compass.EAST, startPos);
+
+            List<IPosition> expected = new ArrayList<>();
+            expected.add(new Position(5, 5)); // col
+            expected.add(new Position(5, 6)); // col + 1
+            expected.add(new Position(5, 7)); // col + 2
+            expected.add(new Position(5, 8)); // col + 3
+
+            assertEquals(4, frigate.getPositions().size(), "Deve ter 4 posições");
+            assertTrue(frigate.getPositions().containsAll(expected),
+                    "Posições 'EAST' (horizontal) não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Oeste (Horizontal)")
+        void checkPositions_BearingWest_IsHorizontal() {
+            // A lógica da classe 'Frigate' trata EAST e WEST da mesma forma
+            IPosition startPos = new Position(5, 5);
+            Frigate frigate = new Frigate(Compass.WEST, startPos);
+
+            List<IPosition> expected = new ArrayList<>();
+            expected.add(new Position(5, 5)); // col
+            expected.add(new Position(5, 6)); // col + 1
+            expected.add(new Position(5, 7)); // col + 2
+            expected.add(new Position(5, 8)); // col + 3
+
+            assertEquals(4, frigate.getPositions().size(), "Deve ter 4 posições");
+            assertTrue(frigate.getPositions().containsAll(expected),
+                    "Posições 'WEST' (horizontal) não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Construtor deve falhar com 'bearing' não suportado")
+        void constructor_ShouldThrowIllegalArgumentException_ForUnsupportedBearing() {
+            IPosition pos = new Position(0, 0);
+
+            // NOTA: Tal como no Galleon, este teste só funciona
+            // se o seu 'enum Compass' tiver mais valores além dos 4 principais
+            // (ex: NORTHEAST).
+
+            // Se o seu enum só tiver os 4 valores, o 'default:' na classe Frigate
+            // é código morto e deve ser removido para 100% de cobertura.
+
+            Compass unsupportedBearing = Compass.UNKNOWN; // <-- Ajuste conforme necessário
+
+            Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+                new Frigate(unsupportedBearing, pos);
+            }, "Deve lançar IllegalArgumentException para 'bearings' não suportados");
+
+            assertEquals("ERROR! invalid bearing for thr frigate", exception.getMessage());
+        }
+    }
+
+    @Nested
+    @DisplayName("Testes da classe Galleon")
+    class GalleonTest {
+
+        // ... (os outros testes que passaram estão ótimos) ...
+        @Test
+        @DisplayName("Tamanho (Size) deve ser 5")
+        void getSize() {
+            IPosition pos = new Position(0, 0);
+            Galleon galleon = new Galleon(Compass.NORTH, pos);
+            assertEquals(5, galleon.getSize(), "O tamanho do Galeão deve ser sempre 5");
+        }
+
+        @Test
+        @DisplayName("Construtor deve falhar com 'bearing' nulo")
+        void constructor_ShouldThrowException_WhenBearingIsNull() {
+            IPosition pos = new Position(0, 0);
+
+            // Basta chamar o método. Se o erro certo for lançado, o teste passa.
+            // Se não for lançado, ou for lançado um erro diferente, o teste falha.
+            assertThrows(AssertionError.class, () -> {
+                new Galleon(null, pos);
+            }, "O construtor da superclasse 'Ship' deve lançar AssertionError se 'bearing' for nulo");
+        }
+
+        @Test
+        @DisplayName("Construtor deve falhar com 'position' nula")
+        void constructor_ShouldThrowException_WhenPositionIsNull() {
+            // Igual para o teste da posição nula
+            assertThrows(AssertionError.class, () -> {
+                new Galleon(Compass.NORTH, null);
+            }, "O construtor da superclasse 'Ship' deve lançar AssertionError se 'pos' for nula");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Norte")
+        void checkPositions_BearingNorth() {
+            IPosition startPos = new Position(5, 5);
+            Galleon galleon = new Galleon(Compass.NORTH, startPos);
+
+            List<IPosition> expectedPositions = new ArrayList<>();
+            expectedPositions.add(new Position(5, 5));
+            expectedPositions.add(new Position(5, 6));
+            expectedPositions.add(new Position(5, 7));
+            expectedPositions.add(new Position(6, 6));
+            expectedPositions.add(new Position(7, 6));
+
+            assertEquals(5, galleon.getPositions().size(), "Deve ter 5 posições");
+            assertTrue(galleon.getPositions().containsAll(expectedPositions),
+                    "As posições para 'NORTH' não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Sul")
+        void checkPositions_BearingSouth() {
+            IPosition startPos = new Position(5, 5);
+            Galleon galleon = new Galleon(Compass.SOUTH, startPos);
+
+            List<IPosition> expectedPositions = new ArrayList<>();
+            expectedPositions.add(new Position(5, 5));
+            expectedPositions.add(new Position(6, 5));
+            // A sua lógica original tem j=2 -> 2-3 = -1
+            expectedPositions.add(new Position(7, 4)); // (row + 2, col - 1)
+            expectedPositions.add(new Position(7, 5)); // (row + 2, col)
+            expectedPositions.add(new Position(7, 6)); // (row + 2, col + 1)
+
+            assertEquals(5, galleon.getPositions().size(), "Deve ter 5 posições");
+            assertTrue(galleon.getPositions().containsAll(expectedPositions),
+                    "As posições para 'SOUTH' não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Este")
+        void checkPositions_BearingEast() {
+            IPosition startPos = new Position(5, 5);
+            Galleon galleon = new Galleon(Compass.EAST, startPos);
+
+            List<IPosition> expectedPositions = new ArrayList<>();
+            expectedPositions.add(new Position(5, 5));
+            // A sua lógica original tem i=1 -> 1-3 = -2
+            expectedPositions.add(new Position(6, 3)); // (row + 1, col - 2)
+            expectedPositions.add(new Position(6, 4)); // (row + 1, col - 1)
+            expectedPositions.add(new Position(6, 5)); // (row + 1, col)
+            expectedPositions.add(new Position(7, 5));
+
+            assertEquals(5, galleon.getPositions().size(), "Deve ter 5 posições");
+            assertTrue(galleon.getPositions().containsAll(expectedPositions),
+                    "As posições para 'EAST' não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Posições devem estar corretas para Oeste")
+        void checkPositions_BearingWest() {
+            IPosition startPos = new Position(5, 5);
+            Galleon galleon = new Galleon(Compass.WEST, startPos);
+
+            List<IPosition> expectedPositions = new ArrayList<>();
+            expectedPositions.add(new Position(5, 5));
+            // A sua lógica original tem i=1 -> 1-1 = 0
+            expectedPositions.add(new Position(6, 5)); // (row + 1, col)
+            expectedPositions.add(new Position(6, 6)); // (row + 1, col + 1)
+            expectedPositions.add(new Position(6, 7)); // (row + 1, col + 2)
+            expectedPositions.add(new Position(7, 5));
+
+            assertEquals(5, galleon.getPositions().size(), "Deve ter 5 posições");
+            assertTrue(galleon.getPositions().containsAll(expectedPositions),
+                    "As posições para 'WEST' não estão corretas");
+        }
+
+        @Test
+        @DisplayName("Construtor deve falhar com 'bearing' não suportado")
+        void constructor_ShouldThrowIllegalArgumentException_ForUnsupportedBearing() {
+            IPosition pos = new Position(0, 0);
+
+
+            Compass unsupportedBearing = Compass.UNKNOWN;
+
+            // Verifica se a exceção correta é lançada
+            Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+                new Galleon(unsupportedBearing, pos);
+            }, "Deve lançar IllegalArgumentException para 'bearings' não suportados");
+
+            // Opcional: verificar a mensagem de erro exata
+            assertEquals("ERROR! invalid bearing for the galleon", exception.getMessage());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    @DisplayName("Testes à classe Game")
+    class GameTest {
+
+        private Game game;
+        private Fleet fleet;
+        private IShip barge;
+        private IPosition pos;
+
+        @BeforeEach
+        @DisplayName("Configuração inicial do jogo e frota")
+        void setUp() {
+            fleet = new Fleet();
+            pos = new Position(0, 0);
+            barge = new Barge(Compass.EAST, pos);
+            fleet.addShip(barge);
+            game = new Game(fleet);
+        }
+
+        @Test
+        @DisplayName("Testar disparo válido que acerta num navio")
+        void fire_HitShip_ShouldIncreaseHitCount() {
+            IShip hitShip = game.fire(pos);
+
+            assertAll("Validação do disparo com acerto",
+                    () -> assertNotNull(fleet.shipAt(pos), "O navio deveria existir na posição"),
+                    () -> assertEquals(1, game.getHits(), "Deveria haver um acerto"),
+                    () -> assertEquals(1, game.getSunkShips(), "O navio de tamanho 1 deveria ficar afundado"),
+                    () -> assertEquals(barge, hitShip, "O navio retornado deveria ser a barca atingida")
+            );
+        }
+
+        @Test
+        @DisplayName("Testar disparo que acerta num navio mas não o afunda")
+        void fire_HitButNotSunk_ShouldNotIncreaseSinkCount() {
+            // Caravela de 2 posições: (0,0) e (0,1)
+            IShip caravel = new Caravel(Compass.EAST, new Position(0, 0));
+            fleet = new Fleet();
+            fleet.addShip(caravel);
+            game = new Game(fleet);
+
+            // Dispara só na primeira posição
+            IPosition firstHit = new Position(0, 0);
+            IShip result = game.fire(firstHit);
+
+            assertAll("Navio atingido mas ainda a flutuar",
+                    () -> assertNull(result, "Não deve devolver o navio, pois ainda não afundou"),
+                    () -> assertEquals(1, game.getHits(), "Deve contar um acerto"),
+                    () -> assertEquals(0, game.getSunkShips(), "Não deve contar navio afundado")
+            );
+        }
+
+        @Test
+        @DisplayName("Testar disparo fora dos limites do tabuleiro")
+        void fire_InvalidShot_ShouldIncreaseInvalidCount() {
+            IPosition invalid = new Position(20, 20);
+            IShip result = game.fire(invalid);
+
+            assertAll("Disparo inválido",
+                    () -> assertNull(result, "Não deve devolver nenhum navio"),
+                    () -> assertEquals(1, game.getInvalidShots(), "Deveria contar como tiro inválido"),
+                    () -> assertEquals(0, game.getHits(), "Não deve haver acertos")
+            );
+        }
+
+        @Test
+        @DisplayName("Testar disparo repetido na mesma posição")
+        void fire_RepeatedShot_ShouldIncreaseRepeatedCount() {
+            game.fire(pos); // primeiro tiro válido
+            game.fire(pos); // tiro repetido
+
+            assertAll("Disparo repetido",
+                    () -> assertEquals(1, game.getRepeatedShots(), "Deveria contar um tiro repetido"),
+                    () -> assertEquals(1, game.getHits(), "Apenas o primeiro tiro conta como acerto")
+            );
+        }
+
+        @Test
+        @DisplayName("Testar obtenção da lista de tiros disparados")
+        void getShots_ShouldReturnAllFiredShots() {
+            IPosition pos1 = new Position(0, 0);
+            IPosition pos2 = new Position(0, 1);
+            game.fire(pos1);
+            game.fire(pos2);
+
+            List<IPosition> shots = game.getShots();
+
+            assertAll("Lista de tiros",
+                    () -> assertEquals(2, shots.size(), "Deveria conter dois tiros"),
+                    () -> assertTrue(shots.contains(pos1), "Deveria conter a primeira posição"),
+                    () -> assertTrue(shots.contains(pos2), "Deveria conter a segunda posição")
+            );
+        }
+
+        @Test
+        @DisplayName("Testar número de navios restantes após afundar um")
+        void getRemainingShips_ShouldDecreaseAfterSink() {
+            game.fire(pos); // afunda a barca
+
+            int remaining = game.getRemainingShips();
+
+            assertEquals(0, remaining, "Não deveria haver navios restantes após afundar a barca");
+        }
+
+        @Test
+        @DisplayName("Testar impressão do tabuleiro com tiros válidos")
+        void printValidShots_ShouldPrintWithoutErrors() {
+            game.fire(pos);
+            assertDoesNotThrow(() -> game.printValidShots(), "Não deve lançar exceções ao imprimir tiros válidos");
+        }
+
+        @Test
+        @DisplayName("Testar limites da função validShot()")
+        void validShot_ShouldCoverAllBranches() throws Exception {
+            // Acesso via reflexão se validShot for privado
+            var method = Game.class.getDeclaredMethod("validShot", IPosition.class);
+            method.setAccessible(true);
+
+            int boardSize = Fleet.BOARD_SIZE;
+
+            // Casos de teste
+            IPosition negativeRow = new Position(-1, 0);
+            IPosition negativeCol = new Position(0, -1);
+            IPosition tooLargeRow = new Position(boardSize + 1, 0);
+            IPosition tooLargeCol = new Position(0, boardSize + 1);
+            IPosition valid = new Position(boardSize, boardSize);
+
+            // Invocações via reflexão
+            boolean negRow = (boolean) method.invoke(game, negativeRow);
+            boolean negCol = (boolean) method.invoke(game, negativeCol);
+            boolean bigRow = (boolean) method.invoke(game, tooLargeRow);
+            boolean bigCol = (boolean) method.invoke(game, tooLargeCol);
+            boolean validCase = (boolean) method.invoke(game, valid);
+
+            assertAll("Cobertura de ramos do validShot",
+                    () -> assertFalse(negRow, "Deve ser falso se a linha for negativa"),
+                    () -> assertFalse(negCol, "Deve ser falso se a coluna for negativa"),
+                    () -> assertFalse(bigRow, "Deve ser falso se a linha exceder o limite"),
+                    () -> assertFalse(bigCol, "Deve ser falso se a coluna exceder o limite"),
+                    () -> assertTrue(validCase, "Deve ser verdadeiro se estiver dentro dos limites")
+            );
+        }
+
+
+        @Test
+        @DisplayName("Testar impressão da frota no tabuleiro")
+        void printFleet_ShouldPrintWithoutErrors() {
+            assertDoesNotThrow(() -> game.printFleet(), "Não deve lançar exceções ao imprimir frota");
+        }
+
+        @Test
+        @DisplayName("Testar impressão genérica do tabuleiro")
+        void printBoard_ShouldPrintWithoutErrors() {
+            List<IPosition> positions = List.of(new Position(1, 1), new Position(2, 2));
+            assertDoesNotThrow(() -> game.printBoard(positions, '#'), "Não deve lançar exceções ao imprimir tabuleiro");
+        }
+    }
+
+    @Nested
+    @DisplayName("Testes unitários da classe Tasks")
+    public class TasksTest {
+
+        @Test
+        @DisplayName("readPosition() - Deve ler corretamente uma posição (linha, coluna)")
+        void testReadPosition() {
+            Scanner scanner = new Scanner("3 5");
+            Position pos = Tasks.readPosition(scanner);
+            assertEquals(3, pos.getRow(), "A linha deve ser 3");
+            assertEquals(5, pos.getColumn(), "A coluna deve ser 5");
+        }
+
+        @Test
+        @DisplayName("readShip() - Deve criar corretamente um navio a partir do input")
+        void testReadShip() {
+            Scanner scanner = new Scanner("fragata 2 3 n");
+            Ship ship = Tasks.readShip(scanner);
+
+            assertNotNull(ship, "O navio não deve ser nulo");
+            assertEquals("Fragata", ship.getCategory(), "A categoria deve ser Fragata");
+            assertEquals(Compass.NORTH, ship.getBearing(), "A direção deve ser Norte");
+            assertEquals(2, ship.getPosition().getRow());
+            assertEquals(3, ship.getPosition().getColumn());
+        }
+
+        @Test
+        @DisplayName("readShip() - Input inválido retorna null")
+        void testReadShipInvalid() {
+            Scanner scanner = new Scanner("unknown 1 1 n");
+            Ship ship = Tasks.readShip(scanner);
+            assertNull(ship, "Navio desconhecido deve resultar em null");
+        }
+
+        @Test
+        @DisplayName("buildFleet() - Deve criar frota completa com 10 navios")
+        void testBuildFleetWithTenShips() {
+            String input = String.join("\n",
+                    "barca 0 0 s",
+                    "barca 2 0 o",
+                    "barca 4 0 n",
+                    "barca 6 0 e",
+                    "barca 8 0 e",
+                    "barca 0 2 o",
+                    "barca 2 2 n",
+                    "barca 4 2 s",
+                    "barca 6 2 e",
+                    "barca 8 2 e"
+            );
+
+            Scanner scanner = new Scanner(input);
+            Fleet fleet = Tasks.buildFleet(scanner);
+            assertThrows(AssertionError.class, () -> {
+                Tasks.buildFleet(null);
+            });
+            assertNotNull(fleet, "A frota não deve ser nula");
+            assertEquals(Fleet.FLEET_SIZE, fleet.getShips().size(), "A frota deve conter exatamente 10 navios");
+        }
+
+        @Test
+        @DisplayName("buildFleet() - Navios duplicados não devem ser adicionados")
+        void testBuildFleetWithDuplicates() {
+            String input = String.join("\n",
+                    "barca 0 0 s",
+                    "barca 0 0 s", // duplicado
+                    "barca 2 0 n",
+                    "barca 4 0 e",
+                    "barca 6 0 o",
+                    "barca 8 0 n",
+                    "naoexiste 0 0 s",// nao existe
+                    "barca 0 2 e",
+                    "barca 2 2 s",
+                    "barca 4 2 n",
+                    "barca 6 2 o",
+                    "barca 8 2 e",
+                    "barca 0 4 s"
+            );
+
+            Scanner scanner = new Scanner(input);
+            Fleet fleet = Tasks.buildFleet(scanner);
+
+            assertEquals(Fleet.FLEET_SIZE, fleet.getShips().size(), "A frota deve ignorar duplicados e ainda ter 10 navios");
+        }
+
+        @Test
+        @DisplayName("firingRound() - Deve registrar acertos, tiros inválidos e repetidos")
+        void testFiringRound() {
+            Fleet fleet = new Fleet();
+            fleet.addShip(Ship.buildShip("fragata", Compass.NORTH, new Position(0, 0)));
+            Game game = new Game(fleet);
+
+            Scanner scanner = new Scanner("0 0 1 1 0 0"); // inclui repetição
+            Tasks.firingRound(scanner, game);
+
+            assertTrue(game.getHits() >= 1, "Deve haver pelo menos 1 acerto");
+            assertTrue(game.getInvalidShots() >= 0, "Número de tiros inválidos deve ser >= 0");
+            assertTrue(game.getRepeatedShots() >= 1, "Deve haver pelo menos 1 tiro repetido");
+        }
+
+        @Test
+        @DisplayName("firingRound() - Deve lidar com tiros fora do mapa")
+        void testFiringRoundOutOfBounds() {
+            Fleet fleet = new Fleet();
+            fleet.addShip(Ship.buildShip("fragata", Compass.NORTH, new Position(0, 0)));
+            Game game = new Game(fleet);
+
+            Scanner scanner = new Scanner("-1 0 0 -1 100 100");
+            Tasks.firingRound(scanner, game);
+
+            assertEquals(0, game.getHits(), "Nenhum acerto deve ocorrer");
+            assertEquals(3, game.getInvalidShots(), "Todos os tiros devem ser inválidos");
+        }
+    }
 
 
 }
