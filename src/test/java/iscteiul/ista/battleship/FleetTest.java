@@ -1,17 +1,15 @@
 package iscteiul.ista.battleship;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static iscteiul.ista.battleship.IFleet.BOARD_SIZE;
 import static iscteiul.ista.battleship.IFleet.FLEET_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
-/*
-Ficaram alguns branch para testar -> confirmar com o stor
- */
 
-
+@DisplayName("Testes para classe Fleet")
 class FleetTest {
 
     private Fleet fleet;
@@ -30,6 +28,7 @@ class FleetTest {
     }
 
     @Test
+    @DisplayName("Teste para adicionar Navio")
     void testAddShipSuccessfully() {
         assertTrue(fleet.addShip(frigate));
         assertTrue(fleet.addShip(galleon));
@@ -66,6 +65,7 @@ class FleetTest {
 
 
     @Test
+    @DisplayName("Teste para o método que veridica limites do board")
     void testIsInsideBoardBranches() {
         Fleet fleet = new Fleet();
 
@@ -91,6 +91,7 @@ class FleetTest {
     }
 
     @Test
+    @DisplayName("Teste para adicionar colisões entre navios")
     void testAddShipCollision() {
         fleet.addShip(frigate);
         // Tenta adicionar outra fragata que colida
@@ -100,6 +101,7 @@ class FleetTest {
     }
 
     @Test
+    @DisplayName("Teste para o método que compara navios")
     void testGetShipsLike() {
         fleet.addShip(frigate);
         fleet.addShip(galleon);
@@ -115,6 +117,7 @@ class FleetTest {
     }
 
     @Test
+    @DisplayName("Teste para o método que obtem navios que ainda flutuam")
     void testGetFloatingShips() {
         fleet.addShip(frigate);
         fleet.addShip(barge);
@@ -127,6 +130,7 @@ class FleetTest {
         assertTrue(floatingShips.contains(frigate));
     }
 
+    @DisplayName("Teste para obter os navios numa dada posição")
     @Test
     void testShipAt() {
         fleet.addShip(frigate);
@@ -142,6 +146,7 @@ class FleetTest {
     }
 
     @Test
+    @DisplayName("Teste para testar o método que imprime o status")
     void testPrintStatus() {
         fleet.addShip(frigate);
         fleet.addShip(galleon);
