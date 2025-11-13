@@ -1,5 +1,6 @@
 package iscteiul.ista.battleship;
 
+import io.qameta.allure.TmsLink;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -10,9 +11,12 @@ import static iscteiul.ista.battleship.IFleet.BOARD_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@TmsLink("TMS-S2-C2")
+@DisplayName("Testes para todas as classes do projeto BattleShip")
 public class BattleshipTest {
 
     @Nested
+    @TmsLink("TMS-S5-C13")
     @DisplayName("Testes para classe Fleet")
     class FleetTest {
 
@@ -162,6 +166,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S3-C8")
     @DisplayName("Testes para a classe Ship")
     class ShipTest {
 
@@ -344,6 +349,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S4-C10")
     class CompassTest {
 
         @Test
@@ -409,6 +415,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S4-C9")
     @DisplayName("Testes da classe Position")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class PositionTest {
@@ -521,6 +528,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S3-C3")
     class BargeTest {
 
         private Barge barge;
@@ -577,6 +585,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S3-C4")
     class CaravelTest {
 
         @Test
@@ -678,6 +687,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S3-C5")
     class CarrackTest {
 
         @Test
@@ -737,6 +747,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S3-C6")
     @DisplayName("Testes da classe Frigate")
     class FrigateTest {
 
@@ -861,6 +872,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S3-C7")
     @DisplayName("Testes da classe Galleon")
     class GalleonTest {
 
@@ -988,6 +1000,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S5-C12")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     @DisplayName("Testes à classe Game")
     class GameTest {
@@ -1147,6 +1160,7 @@ public class BattleshipTest {
     }
 
     @Nested
+    @TmsLink("TMS-S5-C11")
     @DisplayName("Testes unitários da classe Tasks")
     public class TasksTest {
 
