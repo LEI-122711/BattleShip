@@ -3,6 +3,7 @@
  */
 package iscteiul.ista.battleship;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -177,7 +178,7 @@ public class Tasks {
 //                LOGGER.info("Navio desconhecido!");
 //            }
         }
-        LOGGER.info("{} navios adicionados com sucesso!", i);
+        LOGGER.info("{} navios adicionados com sucesso!", Optional.of(i));
         return fleet;
     }
 
