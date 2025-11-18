@@ -169,6 +169,6 @@ class GameTest {
     @DisplayName("Testar impressão genérica do tabuleiro")
     void printBoard_ShouldPrintWithoutErrors() {
         List<IPosition> positions = List.of(new Position(1, 1), new Position(2, 2));
-        assertDoesNotThrow(() -> game.printBoard(positions, '#'), "Não deve lançar exceções ao imprimir tabuleiro");
+        assertDoesNotThrow(() -> game.printBoard(positions, Character.valueOf('#')), "Não deve lançar exceções ao imprimir tabuleiro");
     }
 }

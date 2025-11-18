@@ -199,7 +199,7 @@ public class BattleshipTest {
 
             @Override
             public Integer getSize() {
-                return size;
+                return (Integer) size;
             }
         }
 
@@ -744,6 +744,20 @@ public class BattleshipTest {
                 new Carrack(null, new Position(1, 1));
             });
         }
+
+        @Test
+        @DisplayName("Valida exceção para direção inválida (default case)")
+        void testInvalidBearing() {
+            // Percorre todos os valores do Compass
+            for (Compass c : Compass.values()) {
+                // Se encontrar um valor que não seja um dos 4 cardeais (ex: UNKNOWN)
+                if (c != Compass.NORTH && c != Compass.SOUTH && c != Compass.EAST && c != Compass.WEST) {
+                    assertThrows(IllegalArgumentException.class, () -> {
+                        new Carrack(c, new Position(0, 0));
+                    });
+                }
+            }
+        }
     }
 
     @Nested
@@ -1155,7 +1169,7 @@ public class BattleshipTest {
         @DisplayName("Testar impressão genérica do tabuleiro")
         void printBoard_ShouldPrintWithoutErrors() {
             List<IPosition> positions = List.of(new Position(1, 1), new Position(2, 2));
-            assertDoesNotThrow(() -> game.printBoard(positions, '#'), "Não deve lançar exceções ao imprimir tabuleiro");
+            assertDoesNotThrow(() -> game.printBoard(positions, Character.valueOf('#')), "Não deve lançar exceções ao imprimir tabuleiro");
         }
     }
 

@@ -4,7 +4,7 @@
 package iscteiul.ista.battleship;
 
 public class Carrack extends Ship {
-    private static final Integer SIZE = 3;
+    private static final Integer SIZE = (Integer) 3;
     private static final String NAME = "Nau";
 
     /**

@@ -42,7 +42,7 @@ class ShipTest {
 
         @Override
         public Integer getSize() {
-            return size;
+            return (Integer) size;
         }
     }
 
