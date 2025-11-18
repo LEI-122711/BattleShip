@@ -51,3 +51,8 @@
     tags: #unit-tests, #test-cases
 
 
+### S6 Global test case [ID: TMS-S5]
+* [unknown] C14 BattleshipTest [ID: TMS-S5-C14]
+    tags: #unit-tests, #test-cases
+
+
