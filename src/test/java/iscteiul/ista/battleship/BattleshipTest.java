@@ -11,7 +11,7 @@ import static iscteiul.ista.battleship.IFleet.BOARD_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@TmsLink("TMS-S2-C2")
+@TmsLink("TMS-S5-C14")
 @DisplayName("Testes para todas as classes do projeto BattleShip")
 public class BattleshipTest {
 
