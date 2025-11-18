@@ -64,4 +64,18 @@ class CarrackTest {
             new Carrack(null, new Position(1, 1));
         });
     }
+
+    @Test
+    @DisplayName("Valida exceção para direção inválida (default case)")
+    void testInvalidBearing() {
+        // Percorre todos os valores do Compass
+        for (Compass c : Compass.values()) {
+            // Se encontrar um valor que não seja um dos 4 cardeais (ex: UNKNOWN)
+            if (c != Compass.NORTH && c != Compass.SOUTH && c != Compass.EAST && c != Compass.WEST) {
+                assertThrows(IllegalArgumentException.class, () -> {
+                    new Carrack(c, new Position(0, 0));
+                });
+            }
+        }
+    }
 }
