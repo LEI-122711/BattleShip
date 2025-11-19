@@ -22,21 +22,21 @@
 * [passou] C5 CarrackTest [ID: TMS-S3-C5] @Bianca
     tags: #unit-tests, #test-cases
 
-* [unknown] C6 FrigateTest [ID: TMS-S3-C6]
+* [passou] C6 FrigateTest [ID: TMS-S3-C6] @Beatriz
     tags: #unit-tests, #test-cases
 
-* [unknown] C7 GalleonTest [ID: TMS-S3-C7]
+* [passou] C7 GalleonTest [ID: TMS-S3-C7] @Beatriz
     tags: #unit-tests, #test-cases
 
-* [unknown] C8 ShipTest [ID: TMS-S3-C8]
+* [passou] C8 ShipTest [ID: TMS-S3-C8] @Beatriz
     tags: #unit-tests, #test-cases
 
 
 ### S4 Core Components test case [ID: TMS-S4]
-* [unknown] C9 PositionTest [ID: TMS-S4-C9]
+* [passou] C9 PositionTest [ID: TMS-S4-C9] @Beatriz
     tags: #unit-tests, #test-cases
 
-* [unknown] C10 CompassTest [ID: TMS-S4-C10]
+* [passou] C10 CompassTest [ID: TMS-S4-C10] @Beatriz
     tags: #unit-tests, #test-cases
 
 

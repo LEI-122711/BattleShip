@@ -1,0 +1,344 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Tasks</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">iscteiul.ista.battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: Tasks (iscteiul.ista.battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Tasks</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (24/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; *
+&nbsp; */
+&nbsp;package iscteiul.ista.battleship;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.Scanner;
+&nbsp;
+&nbsp;
+&nbsp;import org.apache.logging.log4j.LogManager;
+&nbsp;import org.apache.logging.log4j.Logger;
+&nbsp;
+<b class="fc">&nbsp;public class Tasks {</b>
+<b class="fc">&nbsp;    private static final Logger LOGGER = LogManager.getLogger();</b>
+&nbsp;
+&nbsp;    private static final int NUMBER_SHOTS = 3;
+&nbsp;
+&nbsp;    private static final String GOODBYE_MESSAGE = &quot;Bons ventos!&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Strings to be used by the user
+&nbsp;     */
+&nbsp;    private static final String NOVAFROTA = &quot;nova&quot;;
+&nbsp;    private static final String DESISTIR = &quot;desisto&quot;;
+&nbsp;    private static final String RAJADA = &quot;rajada&quot;;
+&nbsp;    private static final String VERTIROS = &quot;ver&quot;;
+&nbsp;    private static final String BATOTA = &quot;mapa&quot;;
+&nbsp;    private static final String STATUS = &quot;estado&quot;;
+&nbsp;
+&nbsp;
+&nbsp;    /////////////////////////////////////////////////////////////////////////////
+&nbsp;    // hereafter one may find some code that can be converted to automatic tests,
+&nbsp;    // as long as appropriate changes are made. It also shows that we should
+&nbsp;    // develop our code incrementally e.g. first the ships, then the fleet,
+&nbsp;    // then some rule checking, then dealing with firing and so on
+&nbsp;    /////////////////////////////////////////////////////////////////////////////
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This task tests the building up of ships: For each ship, reads positions and
+&nbsp;     * indicates whether the ship occupies each one of such positions or not
+&nbsp;     */
+&nbsp;    //Pusemos em comentário porque não é conveniente testar estes métodos.
+&nbsp;
+&nbsp;//    public static void taskA() {
+&nbsp;//        Scanner in = new Scanner(System.in);
+&nbsp;//        while (in.hasNext()) {
+&nbsp;//            Ship s = readShip(in);
+&nbsp;//            if (s != null)
+&nbsp;//                for (int i = 0; i &lt; NUMBER_SHOTS; i++) {
+&nbsp;//                    Position p = readPosition(in);
+&nbsp;//                    LOGGER.info(&quot;{} {}&quot;, p, s.occupies(p));
+&nbsp;//                }
+&nbsp;//        }
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    /**
+&nbsp;//     * This task tests the building up of fleets
+&nbsp;//     */
+&nbsp;//    public static void taskB() {
+&nbsp;//        Scanner in = new Scanner(System.in);
+&nbsp;//        IFleet fleet = null;
+&nbsp;//        String command = in.next();
+&nbsp;//        while (!command.equals(DESISTIR)) {
+&nbsp;//            switch (command) {
+&nbsp;//                case NOVAFROTA:
+&nbsp;//                    fleet = buildFleet(in);
+&nbsp;//                    break;
+&nbsp;//                case STATUS:
+&nbsp;//                    if (fleet != null)
+&nbsp;//                        fleet.printStatus();
+&nbsp;//                    break;
+&nbsp;//                default:
+&nbsp;//                    LOGGER.info(&quot;Que comando é esse??? Repete lá ...&quot;);
+&nbsp;//            }
+&nbsp;//            // The other commands are unknown in this task
+&nbsp;//            command = in.next();
+&nbsp;//        }
+&nbsp;//        LOGGER.info(GOODBYE_MESSAGE);
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    /**
+&nbsp;//     * This task tests the building up of fleets and takes into consideration the
+&nbsp;//     * possibility of cheating
+&nbsp;//     */
+&nbsp;//    public static void taskC() {
+&nbsp;//        Scanner in = new Scanner(System.in);
+&nbsp;//        IFleet fleet = null;
+&nbsp;//        String command = in.next();
+&nbsp;//        while (!command.equals(DESISTIR)) {
+&nbsp;//            switch (command) {
+&nbsp;//                case NOVAFROTA:
+&nbsp;//                    fleet = buildFleet(in);
+&nbsp;//                    break;
+&nbsp;//                case STATUS:
+&nbsp;//                    if (fleet != null)
+&nbsp;//                        fleet.printStatus();
+&nbsp;//                    break;
+&nbsp;//                case BATOTA:
+&nbsp;//                    LOGGER.info(fleet);
+&nbsp;//                    break;
+&nbsp;//                default:
+&nbsp;//                    LOGGER.info(&quot;Que comando é esse??? Repete lá ...&quot;);
+&nbsp;//            }
+&nbsp;//            // The other commands are unknown in this task
+&nbsp;//            command = in.next();
+&nbsp;//        }
+&nbsp;//        LOGGER.info(GOODBYE_MESSAGE);
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    /**
+&nbsp;//     * This task also tests the fighting element of a round of three shots
+&nbsp;//     */
+&nbsp;//    public static void taskD() {
+&nbsp;//
+&nbsp;//        Scanner in = new Scanner(System.in);
+&nbsp;//        IFleet fleet = null;
+&nbsp;//        IGame game = null;
+&nbsp;//        String command = in.next();
+&nbsp;//        while (!command.equals(DESISTIR)) {
+&nbsp;//            switch (command) {
+&nbsp;//                case NOVAFROTA:
+&nbsp;//                    fleet = buildFleet(in);
+&nbsp;//                    game = new Game(fleet);
+&nbsp;//                    break;
+&nbsp;//                case STATUS:
+&nbsp;//                    if (fleet != null)
+&nbsp;//                        fleet.printStatus();
+&nbsp;//                    break;
+&nbsp;//                case BATOTA:
+&nbsp;//                    if (fleet != null)
+&nbsp;//                        game.printFleet();
+&nbsp;//                    break;
+&nbsp;//                case RAJADA:
+&nbsp;//                    if (game != null) {
+&nbsp;//                        firingRound(in, game);
+&nbsp;//
+&nbsp;//                        LOGGER.info(&quot;Hits: {} Inv: {} Rep: {} Restam {} navios.&quot;, game.getHits(), game.getInvalidShots(),
+&nbsp;//                                game.getRepeatedShots(), game.getRemainingShips());
+&nbsp;//                        if (game.getRemainingShips() == 0)
+&nbsp;//                            LOGGER.info(&quot;Maldito sejas, Java Sparrow, eu voltarei, glub glub glub...&quot;);
+&nbsp;//                    }
+&nbsp;//                    break;
+&nbsp;//                case VERTIROS:
+&nbsp;//                    if (game != null)
+&nbsp;//                        game.printValidShots();
+&nbsp;//                    break;
+&nbsp;//                default:
+&nbsp;//                    LOGGER.info(&quot;Que comando é esse??? Repete ...&quot;);
+&nbsp;//            }
+&nbsp;//            command = in.next();
+&nbsp;//        }
+&nbsp;//        LOGGER.info(GOODBYE_MESSAGE);
+&nbsp;//    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This operation allows the build up of a fleet, given user data
+&nbsp;     *
+&nbsp;     * @param in The scanner to read from
+&nbsp;     * @return The fleet that has been built
+&nbsp;     */
+&nbsp;    static Fleet buildFleet(Scanner in) {
+<b class="fc">&nbsp;        assert in != null;</b>
+&nbsp;
+<b class="fc">&nbsp;        Fleet fleet = new Fleet();</b>
+&nbsp;
+<b class="fc">&nbsp;        int i = 0; // i represents the total of successfully created ships</b>
+&nbsp;        //Posso alterar aqui??
+<b class="fc">&nbsp;        while (i &lt; Fleet.FLEET_SIZE) {</b>
+<b class="fc">&nbsp;            IShip s = readShip(in);</b>
+<b class="fc">&nbsp;            if (s != null) {</b>
+<b class="fc">&nbsp;                boolean success = fleet.addShip(s);</b>
+<b class="fc">&nbsp;                if (success)</b>
+<b class="fc">&nbsp;                    i++;</b>
+&nbsp;                // else
+&nbsp;                    //LOGGER.info(&quot;Falha na criacao de {} {} {}&quot;, s.getCategory(), s.getBearing(), s.getPosition());
+&nbsp;            }
+&nbsp;//                else {
+&nbsp;//                LOGGER.info(&quot;Navio desconhecido!&quot;);
+&nbsp;//            }
+&nbsp;        }
+<b class="fc">&nbsp;        LOGGER.info(&quot;{} navios adicionados com sucesso!&quot;, Optional.of(i));</b>
+<b class="fc">&nbsp;        return fleet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This operation reads data about a ship, build it and returns it
+&nbsp;     *
+&nbsp;     * @param in The scanner to read from
+&nbsp;     * @return The created ship based on the data that has been read
+&nbsp;     */
+&nbsp;    static Ship readShip(Scanner in) {
+<b class="fc">&nbsp;        String shipKind = in.next();</b>
+<b class="fc">&nbsp;        Position pos = readPosition(in);</b>
+<b class="fc">&nbsp;        char c = in.next().charAt(0);</b>
+<b class="fc">&nbsp;        Compass bearing = Compass.charToCompass(c);</b>
+<b class="fc">&nbsp;        return Ship.buildShip(shipKind, bearing, pos);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This operation allows reading a position in the map
+&nbsp;     *
+&nbsp;     * @param in The scanner to read from
+&nbsp;     * @return The position that has been read
+&nbsp;     */
+&nbsp;    static Position readPosition(Scanner in) {
+<b class="fc">&nbsp;        int row = in.nextInt();</b>
+<b class="fc">&nbsp;        int column = in.nextInt();</b>
+<b class="fc">&nbsp;        return new Position(row, column);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This operation allows firing a round of shots (three) over a fleet, in the
+&nbsp;     * context of a game
+&nbsp;     *
+&nbsp;     * @param in   The scanner to read from
+&nbsp;     * @param game The context game while fleet is being attacked
+&nbsp;     */
+&nbsp;    static void firingRound(Scanner in, IGame game) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; NUMBER_SHOTS; i++) {</b>
+<b class="fc">&nbsp;            IPosition pos = readPosition(in);</b>
+<b class="fc">&nbsp;            IShip sh = game.fire(pos);</b>
+&nbsp;            //if (sh != null)
+&nbsp;                //LOGGER.info(&quot;Mas... mas... {}s nao sao a prova de bala? :-(&quot;, sh.getCategory());
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-19 08:46</div>
+</div>
+</body>
+</html>
