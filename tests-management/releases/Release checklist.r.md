@@ -41,18 +41,18 @@
 
 
 ### S5 Tasks test case [ID: TMS-S5]
-* [unknown] C11 TasksTest [ID: TMS-S5-C11]
+* [passou] C11 TasksTest [ID: TMS-S5-C11] @Andre
     tags: #unit-tests, #test-cases
 
-* [unknown] C12 GameTest [ID: TMS-S5-C12]
+* [passou] C12 GameTest [ID: TMS-S5-C12] @Andre
     tags: #unit-tests, #test-cases
 
-* [unknown] C13 FleetTest [ID: TMS-S5-C13]
+* [passou] C13 FleetTest [ID: TMS-S5-C13] @Andre
     tags: #unit-tests, #test-cases
 
 
 ### S6 Global test case [ID: TMS-S5]
-* [unknown] C14 BattleshipTest [ID: TMS-S5-C14]
+* [passou] C14 BattleshipTest [ID: TMS-S5-C14] @Andre
     tags: #unit-tests, #test-cases
 
 
